@@ -75,6 +75,10 @@ func New(context context.Context, appPath, protoDir string) (Scaffolder, error) 
 	return s, nil
 }
 
+func (s *Scaffolder) SetAliasPackage(aliasPackage string) {
+	s.modpath.Package = aliasPackage
+}
+
 func (s Scaffolder) ApplyModifications() (xgenny.SourceModification, error) {
 	return s.runner.ApplyModifications()
 }

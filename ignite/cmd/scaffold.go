@@ -21,6 +21,7 @@ const (
 	flagResponse     = "response"
 	flagDescription  = "desc"
 	flagProtoDir     = "proto-dir"
+	flagAliasPackage = "alias-package"
 
 	msgCommitPrefix = "Your saved project changes have not been committed.\nTo enable reverting to your current state, commit your saved changes."
 	msgCommitPrompt = "Do you want to proceed without committing your saved changes"
@@ -289,6 +290,11 @@ func flagSetScaffoldType() *flag.FlagSet {
 func flagGetModule(cmd *cobra.Command) string {
 	module, _ := cmd.Flags().GetString(flagModule)
 	return module
+}
+
+func flagGetAliasPackage(cmd *cobra.Command) string {
+	aliaspackage, _ := cmd.Flags().GetString(flagAliasPackage)
+	return aliaspackage
 }
 
 func flagGetNoSimulation(cmd *cobra.Command) bool {

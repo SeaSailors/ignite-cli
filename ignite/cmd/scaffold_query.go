@@ -34,6 +34,7 @@ For detailed type information use ignite scaffold type --help.`,
 	c.Flags().StringSliceP(flagResponse, "r", []string{}, "response fields")
 	c.Flags().StringP(flagDescription, "d", "", "description of the CLI to broadcast a tx with the message")
 	c.Flags().Bool(flagPaginated, false, "define if the request can be paginated")
+	c.Flags().String(flagAliasPackage, "", "alias default module package name")
 
 	return c
 }
@@ -60,6 +61,8 @@ func queryHandler(cmd *cobra.Command, args []string) error {
 		desc = fmt.Sprintf("Query %s", args[0])
 	}
 
+	aliasPackage, _ := cmd.Flags().GetString(flagAliasPackage)
+
 	var (
 		paginated, _ = cmd.Flags().GetBool(flagPaginated)
 		appPath      = flagGetPath(cmd)
@@ -73,6 +76,10 @@ func queryHandler(cmd *cobra.Command, args []string) error {
 	sc, err := scaffolder.New(cmd.Context(), appPath, cfg.Build.Proto.Path)
 	if err != nil {
 		return err
+	}
+
+	if aliasPackage != "" {
+		sc.SetAliasPackage(aliasPackage)
 	}
 
 	err = sc.AddQuery(cmd.Context(), module, args[0], desc, args[1:], resFields, paginated)
